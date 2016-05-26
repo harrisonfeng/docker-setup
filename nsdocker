@@ -23,18 +23,16 @@
 # @author Harrison Feng <feng.harrison@gmail.com>¬
 # @file nsdocker.sh¬
 
-
 # Color Definition¬
-TXTRESET='\e[0m'¬
-TXTRED='\e[0;31m'¬
-TXTGREEN='\e[0;32m'¬
-TXTBLUE='\e[0;34m'¬
-TXTPURPLE='\e[0;35m'¬
-¬
-BTXTRED='\e[1;31m'¬
-BTXTGREEN='\e[1;32m'¬
-BTXTBLUE='\e[1;34m'¬
+TXTRESET='\e[0m'
+TXTRED='\e[0;31m'
+TXTGREEN='\e[0;32m'
+TXTBLUE='\e[0;34m'
+TXTPURPLE='\e[0;35m'
 
+BTXTRED='\e[1;31m'
+BTXTGREEN='\e[1;32m'
+BTXTBLUE='\e[1;34m'
 
 # Error code
 invalid_container=1
@@ -55,25 +53,27 @@ usage() {
 command_exists() { command -v "$@" > /dev/null 2>&1; }
 
 nsdocker() {
-if command_exists nsenter; then
-    if [ -z "$1" ]; then
-        pid=$(docker inspect -f "{{.State.Pid}}" "$1")
-        if [ -z "$pid" ]; then
-            exit $invalid_container
+    if command_exists nsenter; then
+        if [ ! -z "$1" ]; then
+            pid=$(docker inspect -f "{{.State.Pid}}" "$1")
+            if [ -z "$pid" ]; then
+                exit $invalid_container
+            fi
+            shift
+            opts="--target $pid --mount --uts --ipc --net --pid --"
+            if [ -z "$1" ]; then
+                nsenter $opts su - root
+            else
+                nsenter $opts env --ignore-environment -- "$@"
+            fi
+        else
+            usage
+            exit 1
         fi
-    shift
-    opts="--target $pid --mount --uts --ipc --net --pid --"
-    if [ -z "$1" ]; then
-        nsenter $opts su - root
     else
-        nsenter $opts env --ignore-environment -- "$@"
+        echo -e "$TXTRED\nnsenter is NOT installed or NOT in your PATH.$TXTRESET"
+        exit $nsenter_not_exists
     fi
-else
-    echo "$TXTRED
-    nsenter is not installed or not in your PATH env.
-    $TXTRESET"
-    exit $nsenter_not_exists 
-fi
 }
 
-nsdocker
+nsdocker $@
