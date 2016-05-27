@@ -70,6 +70,7 @@ prepare_repo() {
 
 install_docker() {
     yum install -y docker-engine-$VERSION
+    \cp -f ./nsdocker /usr/local/bin
 }
 
 usage
@@ -79,5 +80,5 @@ install_docker
 if command_exists docker; then
     service docker start
 else
-    echo "Docker bin doesn't exist, please check if it's installed correctly!"
+    echo "Docker doesn't exist, please check if it's installed correctly!"
 fi
