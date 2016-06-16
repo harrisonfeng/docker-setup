@@ -60,9 +60,7 @@ get_self_signed_cert() {
     if [ ! -d $DOCKER_CERTS_DIR/$DOMAIN_NAME ]; then
         mkdir -p $DOCKER_CERTS_DIR/$DOMAIN_NAME
     fi
-    echo -n | openssl s_client -connect \ $DOMAIN_NAME:443 | \
-    sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' \
-    > $DOCKER_CERTS_DIR/$DOMAIN_NAME/$DOMAIN_NAME.crt
+    echo -n | openssl s_client -connect $DOMAIN_NAME:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > $DOCKER_CERTS_DIR/$DOMAIN_NAME/$DOMAIN_NAME.crt
 }
 
 usage
