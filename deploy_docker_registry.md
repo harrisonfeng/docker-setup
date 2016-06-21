@@ -16,12 +16,12 @@ mkdir -p $HOME/docker/auth
 mkdir -p $HOME/docker/auth && openssl req -newkey rsa:4096 -nodes -sha256 -keyout $HOME/docker/auth/registry.key -x509 -days 1825 -out $HOME/docker/auth/registry.crt
 ```
 
-2. Be sure to use your real domain name as a CN.
-3. Instruct docker daemon to trust that certificate.
+3. Be sure to use your real domain name as a CN.
+4. Instruct docker daemon to trust that certificate.
 
     This is done by copying the `registry.crt` file to `/etc/docker/certs.d/registrydomain.com/registry.crt`
 
-4. Restart docker daemon
+5. Restart docker daemon
 
 ```bash
 systemctl restart docker
