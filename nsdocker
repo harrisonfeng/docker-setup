@@ -62,7 +62,7 @@ nsdocker() {
             shift
             opts="--target $pid --mount --uts --ipc --net --pid --"
             if [ -z "$1" ]; then
-                nsenter $opts su - root
+                nsenter $opts /bin/su - root
             else
                 nsenter $opts env --ignore-environment -- "$@"
             fi
