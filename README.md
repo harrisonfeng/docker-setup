@@ -12,5 +12,13 @@ It includes three utilities inside:
 ```bash
 git clone https://github.com/harrisonfeng/docker-setup.git
 cd docker-setup
+
+# install docker
 ./docker_setup.sh 1.11.1
+
+# install golang
+./golang_inst.sh 1.6.3
+
+# how to use nsdocker
+nsdocker $CONTAINER_ID
 ```
