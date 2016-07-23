@@ -74,9 +74,8 @@ install_go() {
     curl ${GO_TOOLS_URL} | tar -C /usr/local -zxvf -
     \cp  ${HOME}/.bashrc ${HOME}/.bashrc_backup_for_go_install
     echo "export PATH=\$PATH:/usr/local/go/bin" >> ${HOME}/.bashrc
-    source ${HOME}/.bashrc
     echo -e "${BTXTGREEN} --- Your Golang environment --- ${TXTRESET}\n"
-    go env
+    /usr/local/go/bin/go env
 }
 
 
